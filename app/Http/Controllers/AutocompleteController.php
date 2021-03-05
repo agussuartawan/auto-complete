@@ -10,7 +10,7 @@ class AutocompleteController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::take(10)->get();
         return view('autocomplete.index', compact('customers', $customers));
     }
 
@@ -19,5 +19,10 @@ class AutocompleteController extends Controller
         Piutang::create($request->all());
         // dd($request->all());
         return redirect('/index');
+    }
+
+    public function create()
+    {
+        return view('autocomplete.create');
     }
 }

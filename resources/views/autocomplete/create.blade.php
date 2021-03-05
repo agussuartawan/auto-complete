@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="{{ url('/index') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/customer/create') }}">Add Customers</a>
@@ -33,23 +33,23 @@
 
         <form action="{{ url('/store') }}" method="POST">
             {{ csrf_field() }}
-            <div class="container">
+            <table class="table">
+                <thead class="bg-primary">
+                    <th></th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                </thead>
 
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <select name="customers_id" class="selectpicker form-control" data-live-search="true">
-                                <option selected>~Pilih Customer~</option>
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
-                <input type="submit" value="Save">
-            </div>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td><input class="form-control" type="text" name="name"></td>
+                        <td><input class="form-control" type="text" name="addres"></td>
+                        <td><input class="form-control" type="text" name="phone"></td>
+                    </tr>
+                </tbody>
+            </table>
         </form>
 
         </div>
