@@ -19,7 +19,8 @@
         <h5 class="card-header">Featured</h5>
         <div class="card-body">
 
-        <form action="">
+        <form action="{{ url('/store') }}" method="POST">
+            {{ csrf_field() }}
             <div class="container">
 
                 <div class="panel panel-default">
@@ -27,17 +28,17 @@
                         <div class="form-group">
                             <label>Cari Nama Ibu Kota Provinsi:</label>
                         <div>
-                        <select name="ibukota" class="selectpicker form-control" data-live-search="true">
+                        <select name="customers_id" class="selectpicker form-control" data-live-search="true">
                             @foreach ($customers as $customer)
-                                <option>{{ $customer->name }}</option>
+                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 </div>
                 </div>
-
-
+            <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
+            <input type="submit" value="Save">
             </div>
         </form>
 
