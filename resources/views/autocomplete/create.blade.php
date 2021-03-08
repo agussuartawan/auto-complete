@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>Belajar PHP Ajax</title>
   </head>
@@ -30,28 +31,39 @@
         </nav>
 
         <div class="card-body">
-
-        <form action="{{ url('/store') }}" method="POST">
-            {{ csrf_field() }}
-            <table class="table">
-                <thead class="bg-primary">
-                    <th></th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td><input class="form-control" type="text" name="name"></td>
-                        <td><input class="form-control" type="text" name="addres"></td>
-                        <td><input class="form-control" type="text" name="phone"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-
+            <div class="table-responsive">
+                <form action="{{ url('/store') }}" method="POST" class="form" id="form_input">
+                    <span id="hasil"></span>
+                    <table class="table table-light table-responsive table-striped" id="tabel_input">
+                        <thead>
+                            <tr>
+                                <th width="30%">Name</th>
+                                <th width="30%">Address</th>
+                                <th width="30%">Phone</th>
+                                <th width="10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row"></i></td>
+                                <td><input type="text" name="name" id="" class="form-control"></td>
+                                <td><input type="text" name="address" id="" class="form-control"></td>
+                                <td><input type="text" name="phone" id="" class="form-control"></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            @csrf
+                            <tr width>
+                                <td>
+                                    <input type="submit" id="simpan" class="btn btn-primary" value="Simpan">
+                                </td>
+                                <td colspan="2" align="right">&nbsp;</td>
+                                <td colspan="2" align="right">&nbsp;</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
         </div>
     </div>
     
@@ -62,5 +74,42 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            var count = 1;
+
+            dinamis_field(count);
+
+            function dinamis_field(number){
+                var html = '<tr>';
+                html += '<td><input type="text" name="name[]" class="form-control" /></td>';
+                html += '<td><input type="text" name="address[]" class="form-control" /></td>';
+                html += '<td><input type="text" name="phone[]" class="form-control" /></td>';
+
+                if (number > 1){
+                    html += '<td><a id="hapus" href="#"><i class="fa fa-minus" aria-hidden="true"></a></td></tr>';
+                    $('tbody').append(html);
+                } else {
+                    html += '<td><a href="#" id="tambah" name="tambah" class="btn btn-success">Tambah form</a></td></tr>';
+                    $('tbody').html(html);
+                }
+            }
+
+            $('#tambah').click(function(){
+                count++;
+                dinamis_field(count);
+            });
+
+            $(document).on('click', '#hapus', function(){
+                count--;
+                dinamis_field(count);
+            });
+
+        });
+    </script>
+
+
   </body>
 </html>

@@ -14,7 +14,12 @@
   <body>
 
     <div class="container">
-        
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button> 
+        <strong>{{ $message }}</strong>
+        </div>
+    @endif
     <div class="card">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -48,7 +53,7 @@
                     </div>
                 </div>
                 <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
-                <input type="submit" value="Save">
+                <br><input type="submit" value="Save" class="btn">
             </div>
         </form>
 

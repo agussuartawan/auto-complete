@@ -10,15 +10,16 @@ class AutocompleteController extends Controller
 {
     public function index()
     {
-        $customers = Customer::take(10)->get();
-        return view('autocomplete.index', compact('customers', $customers));
+        // $customers = Customer::take(10)->get();
+        $customers = Customer::all();
+        return view('autocomplete.index', compact('customers'));
     }
 
     public function store(Request $request)
     {
         Piutang::create($request->all());
         // dd($request->all());
-        return redirect('/index');
+        return redirect('/index')->with('success', 'Data berhasil disimpan');
     }
 
     public function create()
