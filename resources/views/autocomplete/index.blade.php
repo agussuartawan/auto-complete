@@ -42,12 +42,9 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="form-group">
-                            <select name="customers_id" class="selectpicker form-control" data-live-search="true">
-                                <option selected>~Pilih Customer~</option>
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                @endforeach
+                        <div class="form-group" id="form_cari">
+                            <select name="customers_id" id="select_customer" class="selectpicker form-control" data-live-search="true">
+                                <option selected id="option" value="0">~Pilih Customer~</option>
                             </select>
                         </div>
                     </div>
@@ -67,5 +64,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            cari_data();
+
+            $('#form_cari input[type="text"]').keyup(function(){
+                var query = $(this).val();
+                cari_data(query);
+            });
+
+            function cari_data(query = ''){
+                $.ajax({
+                    url: "{{ route('cari_customer') }}",
+                    method: "GET",
+                    data: {query:query},
+                    dataType: "JSON",
+                    success: function(data){
+                        $('#option').html(data.name);
+                        $('#option').attr('value', data.id);
+                    }
+                });
+            }
+
+        });
+    </script>
   </body>
 </html>

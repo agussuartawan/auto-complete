@@ -105,9 +105,9 @@
             $('.form').on('submit', function(event){
                 event.preventDefault();
                 $.ajax({
-                    url:'{{ route("customer.store") }}',
+                    url:'{{ route("customer. store") }}',
                     method:'post',
-                    data:$(this).serialize(),
+                    data: $(this).serialize(),
                     dataType:'json',
                     beforeSend:function(){
                         $('#simpan').attr('disabled', 'disabled');
@@ -128,7 +128,6 @@
 
                 });
             });
-
         });
     </script>
 

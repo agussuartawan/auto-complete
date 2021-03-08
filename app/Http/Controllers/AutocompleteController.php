@@ -12,8 +12,8 @@ class AutocompleteController extends Controller
     public function index()
     {
         // $customers = Customer::take(10)->get();
-        $customers = Customer::all();
-        return view('autocomplete.index', compact('customers'));
+        // $customers = Customer::all();
+        return view('autocomplete.index');
     }
 
     public function store(Request $request)
@@ -26,6 +26,35 @@ class AutocompleteController extends Controller
     public function create()
     {
         return view('autocomplete.create');
+    }
+
+    public function cari_customer(Request $request)
+    {
+        $name = '';
+        $id = '';
+        if($request->ajax()){
+            $query = $request->get('query');
+            if($query != ''){
+                $customer = Customer::where('name', 'like', '%'.$query.'%')->get();
+            } else {
+                $customer = Customer::take(5)->get();
+            }
+            $total_row = $customer->count();
+            if($total_row > 0){
+                foreach ($customer as $c) {
+                    // $hasil .= '<option value="'.$c->id.'">'.$c->name.'</option>';
+                    $name .= $c->name;
+                    $id .= $c->id;
+                }
+            }
+
+            $data = array(
+                'id' => $id,
+                'name' => $name
+            );
+            echo json_encode($data);
+        }
+        // dd($request->all());
     }
 
     public function customer_store(Request $request)
