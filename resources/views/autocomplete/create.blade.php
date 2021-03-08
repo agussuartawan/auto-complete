@@ -40,16 +40,11 @@
                                 <th width="30%">Name</th>
                                 <th width="30%">Address</th>
                                 <th width="30%">Phone</th>
-                                <th width="10%"></th>
+                                <th width="10%"><a href="#" id="tambah" name="tambah" class="btn btn-success">Tambah form</a></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td scope="row"></i></td>
-                                <td><input type="text" name="name" id="" class="form-control"></td>
-                                <td><input type="text" name="address" id="" class="form-control"></td>
-                                <td><input type="text" name="phone" id="" class="form-control"></td>
-                            </tr>
+                            
                         </tbody>
                         <tfoot>
                             @csrf
@@ -83,18 +78,19 @@
             dinamis_field(count);
 
             function dinamis_field(number){
-                var html = '<tr>';
+                var html = '<tr id="baris'+number+'" class="td">';
                 html += '<td><input type="text" name="name[]" class="form-control" /></td>';
-                html += '<td><input type="text" name="address[]" class="form-control" /></td>';
+                html += '<td><input type="text" name="addres[]" class="form-control" /></td>';
                 html += '<td><input type="text" name="phone[]" class="form-control" /></td>';
 
                 if (number > 1){
-                    html += '<td><a id="hapus" href="#"><i class="fa fa-minus" aria-hidden="true"></a></td></tr>';
+                    html += '<td class="hapus"><a href="#"><i class="fa fa-minus" aria-hidden="true"></a></td></tr>';
                     $('tbody').append(html);
                 } else {
-                    html += '<td><a href="#" id="tambah" name="tambah" class="btn btn-success">Tambah form</a></td></tr>';
+                    html += '<td></td></tr>';
                     $('tbody').html(html);
                 }
+                console.log(count);
             }
 
             $('#tambah').click(function(){
@@ -102,9 +98,9 @@
                 dinamis_field(count);
             });
 
-            $(document).on('click', '#hapus', function(){
-                count--;
-                dinamis_field(count);
+            $(document).on('click', '.hapus', function(){
+                var button_id = $(this).parent().attr('id');
+                $('#'+button_id).remove();
             });
 
         });
