@@ -90,7 +90,6 @@
                     html += '<td></td></tr>';
                     $('tbody').html(html);
                 }
-                console.log(count);
             }
 
             $('#tambah').click(function(){
@@ -101,6 +100,33 @@
             $(document).on('click', '.hapus', function(){
                 var button_id = $(this).parent().attr('id');
                 $('#'+button_id).remove();
+            });
+
+            $('.form').on('submit', function(event){
+                event.preventDefault();
+                $.ajax({
+                    url:'{{ route("customer.store") }}',
+                    method:'post',
+                    data:$(this).serialize(),
+                    dataType:'json',
+                    beforeSend:function(){
+                        $('#simpan').attr('disabled', 'disabled');
+                    },
+                    success:function(data){
+                        if (data.error) {
+                            var error_html = '';
+                            for (var i = 0; i < data.error.length; i++) {
+                                error_html += '<p>'+data.error[i]+'</p>';
+                            }
+                            $('#hasil').html('<div class+"alert alert-danger">'+error_html+'</div>')
+                        } else {
+                            dinamis_field(1);
+                            $('#hasil').html('<div class="alert alert-success">'+data.success+'</div>');
+                        }
+                        $('#simpan').attr('disabled', false);
+                    }
+
+                });
             });
 
         });

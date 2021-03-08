@@ -17,4 +17,5 @@ Route::get('/', function () {
 
 Route::get('/index', 'AutocompleteController@index');
 Route::post('/store', 'AutocompleteController@store');
+Route::post('/customer/store', 'AutocompleteController@customer_store')->name('customer.store');
 Route::get('/customer/create', 'AutocompleteController@create');
