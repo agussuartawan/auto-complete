@@ -36,15 +36,14 @@
 
         <div class="card-body">
 
-        <form action="{{ url('/store') }}" method="POST">
+        <form action="{{ url('/store') }}" method="POST" id="form_cari">
             {{ csrf_field() }}
             <div class="container">
-
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="form-group" id="form_cari">
                             <select name="customers_id" id="select_customer" class="selectpicker form-control" data-live-search="true">
-                                <option selected id="option" value="0">~Pilih Customer~</option>
+                                <option value="">~Pilih Pelanggan~</option>
                             </select>
                         </div>
                     </div>
@@ -72,7 +71,8 @@
 
             $('#form_cari input[type="text"]').keyup(function(){
                 var query = $(this).val();
-                cari_data(query);
+                // cari_data(query);
+                console.log(query);
             });
 
             function cari_data(query = ''){
@@ -82,8 +82,7 @@
                     data: {query:query},
                     dataType: "JSON",
                     success: function(data){
-                        $('#option').html(data.name);
-                        $('#option').attr('value', data.id);
+                        $('#select_customer').append(data.hasil).selectpicker('refresh');
                     }
                 });
             }

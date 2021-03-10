@@ -30,27 +30,23 @@ class AutocompleteController extends Controller
 
     public function cari_customer(Request $request)
     {
-        $name = '';
-        $id = '';
+        $hasil = '';
         if($request->ajax()){
             $query = $request->get('query');
             if($query != ''){
                 $customer = Customer::where('name', 'like', '%'.$query.'%')->get();
             } else {
-                $customer = Customer::take(5)->get();
+                $customer = Customer::take(20)->get();
             }
             $total_row = $customer->count();
             if($total_row > 0){
                 foreach ($customer as $c) {
-                    // $hasil .= '<option value="'.$c->id.'">'.$c->name.'</option>';
-                    $name .= $c->name;
-                    $id .= $c->id;
+                    $hasil .= '<option value="'.$c->id.'">'.$c->name.'</option>';
                 }
             }
 
             $data = array(
-                'id' => $id,
-                'name' => $name
+                'hasil' => $hasil
             );
             echo json_encode($data);
         }
