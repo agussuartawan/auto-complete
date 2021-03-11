@@ -63,7 +63,7 @@
     <script src="{{ url('/typeahead/typeahead.bundle.js') }}"></script>
 
     <script type="text/javascript">
-        // instantiate the bloodhound suggestion engine
+    $(document).ready(function(){
         var customers = new Bloodhound({
           datumTokenizer: Bloodhound.tokenizers.whitespace,
           queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -81,24 +81,26 @@
                 })
             }
           }
-        });
+        });        
 
-        // initialize the bloodhound suggestion engine
-        
-
-        $("#remote .typeahead").typeahead({
-            hint: true,
-        },
-        {
+        $("#remote .typeahead").typeahead(null,{
             name: "customers",
             display: "customer_name",
-            source: customers
-        });
-        
+            source: customers,
+            limit: 10,
+            templates: {
+                empty: [
+                  '<div class="empty-message">',
+                    'unable to find any Best Picture winners that match the current query',
+                  '</div>'
+                ].join('\n'),
+                header: function(query){
+                    return '<div class="form-control"><a href="#">Ketuk untuk menambahkan '+query.query+'(new)</a></div>'
+                }
+            }
+        });        
+    });
 
-        // $.get("{{ route('cari_customer') }}", function(data){
-        //   $("#remote .typeahead").typeahead({ source:data });
-        // },'json');
     </script>
   </body>
 </html>
