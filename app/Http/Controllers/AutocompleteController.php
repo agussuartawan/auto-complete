@@ -27,9 +27,7 @@ class AutocompleteController extends Controller
 
     public function cari_customer(Request $request)
     {
-        // dd($request->all());
-        $data = Customer::select("name")->where("name", "LIKE", "%{$request->input('query')}%")->get();
-        // $data = Customer::all();
+        $data = Customer::select("id", "name", "addres")->where("name", "LIKE", "%{$request->input('query')}%")->get();
         return response()->json($data);
     }
 

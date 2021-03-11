@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url('/typeahead/typeaheadjs.css') }}">
 
     <title>Belajar PHP Ajax</title>
   </head>
@@ -41,7 +42,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div id="remote" class="form-group">
-                          <input class="typeahead form-control" name="name" type="text" placeholder="Ketik untuk mencari pelanggan" autocomplete="off">
+                          <input class="typeahead form-control" name="name" type="text" placeholder="Ketik untuk mencari pelanggan">
                         </div>                        
                       <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
                     </div>
@@ -59,26 +60,45 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script> -->
-    <script src="{{ url('/typeahead/bootstrap3-typeahead.min.js') }}"></script>
+    <script src="{{ url('/typeahead/typeahead.bundle.js') }}"></script>
 
     <script type="text/javascript">
+        // instantiate the bloodhound suggestion engine
+        var customers = new Bloodhound({
+          datumTokenizer: Bloodhound.tokenizers.whitespace,
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          prefetch: "{{ route('cari_customer') }}",
+          remote: {
+            url: "{{ route('cari_customer') }}?query=%QUERY%",
+            wildcard: "%QUERY%",
+            filter: function(customers){
+                return $.map(customers, function(customer){
+                    return {
+                        customer_id: customer.id,
+                        customer_name: customer.name,
+                        customer_addres: customer.addres
+                    }
+                })
+            }
+          }
+        });
 
-        // var route = "{{ route('cari_customer') }}";
-        // $('#remote .typeahead').typeahead({
-        //   source: function(query, process){
-        //         return $.get(route, { query : query }, function (data) {
-        //             return process(data);
-        //         });
-        //   },
-        //   autoSelect: true
-        // });
+        // initialize the bloodhound suggestion engine
+        
 
-        $.get("{{ route('cari_customer') }}", function(data){
-          $("#remote .typeahead").typeahead({ source:data });
-        },'json');
-        //example_collection.json
-        // ["item1","item2","item3"]
+        $("#remote .typeahead").typeahead({
+            hint: true,
+        },
+        {
+            name: "customers",
+            display: "customer_name",
+            source: customers
+        });
+        
+
+        // $.get("{{ route('cari_customer') }}", function(data){
+        //   $("#remote .typeahead").typeahead({ source:data });
+        // },'json');
     </script>
   </body>
 </html>
