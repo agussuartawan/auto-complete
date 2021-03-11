@@ -7,7 +7,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
 
     <title>Belajar PHP Ajax</title>
   </head>
@@ -36,19 +35,17 @@
 
         <div class="card-body">
 
-        <form action="{{ url('/store') }}" method="POST" id="form_cari">
+        <form action="{{ route('cari_customer') }}" method="POST" id="form_cari">
             {{ csrf_field() }}
             <div class="container">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="form-group" id="form_cari">
-                            <select name="customers_id" id="select_customer" class="selectpicker form-control" data-live-search="true">
-                                <option value="">~Pilih Pelanggan~</option>
-                            </select>
-                        </div>
+                        <div id="remote" class="form-group">
+                          <input class="typeahead form-control" name="name" type="text" placeholder="Ketik untuk mencari pelanggan" autocomplete="off">
+                        </div>                        
+                      <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
                     </div>
                 </div>
-                <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
                 <br><input type="submit" value="Save" class="btn">
             </div>
         </form>
@@ -62,32 +59,26 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script> -->
+    <script src="{{ url('/typeahead/bootstrap3-typeahead.min.js') }}"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
 
-            cari_data();
+        // var route = "{{ route('cari_customer') }}";
+        // $('#remote .typeahead').typeahead({
+        //   source: function(query, process){
+        //         return $.get(route, { query : query }, function (data) {
+        //             return process(data);
+        //         });
+        //   },
+        //   autoSelect: true
+        // });
 
-            $('#form_cari input[type="text"]').keyup(function(){
-                var query = $(this).val();
-                // cari_data(query);
-                console.log(query);
-            });
-
-            function cari_data(query = ''){
-                $.ajax({
-                    url: "{{ route('cari_customer') }}",
-                    method: "GET",
-                    data: {query:query},
-                    dataType: "JSON",
-                    success: function(data){
-                        $('#select_customer').append(data.hasil).selectpicker('refresh');
-                    }
-                });
-            }
-
-        });
+        $.get("{{ route('cari_customer') }}", function(data){
+          $("#remote .typeahead").typeahead({ source:data });
+        },'json');
+        //example_collection.json
+        // ["item1","item2","item3"]
     </script>
   </body>
 </html>

@@ -11,15 +11,12 @@ class AutocompleteController extends Controller
 {
     public function index()
     {
-        // $customers = Customer::take(10)->get();
-        // $customers = Customer::all();
         return view('autocomplete.index');
     }
 
     public function store(Request $request)
     {
         Piutang::create($request->all());
-        // dd($request->all());
         return redirect('/index')->with('success', 'Data berhasil disimpan');
     }
 
@@ -30,27 +27,10 @@ class AutocompleteController extends Controller
 
     public function cari_customer(Request $request)
     {
-        $hasil = '';
-        if($request->ajax()){
-            $query = $request->get('query');
-            if($query != ''){
-                $customer = Customer::where('name', 'like', '%'.$query.'%')->get();
-            } else {
-                $customer = Customer::take(20)->get();
-            }
-            $total_row = $customer->count();
-            if($total_row > 0){
-                foreach ($customer as $c) {
-                    $hasil .= '<option value="'.$c->id.'">'.$c->name.'</option>';
-                }
-            }
-
-            $data = array(
-                'hasil' => $hasil
-            );
-            echo json_encode($data);
-        }
         // dd($request->all());
+        $data = Customer::select("name")->where("name", "LIKE", "%{$request->input('query')}%")->get();
+        // $data = Customer::all();
+        return response()->json($data);
     }
 
     public function customer_store(Request $request)
@@ -78,7 +58,6 @@ class AutocompleteController extends Controller
                 );
                 $insert_data[] = $data;
             }
-            // dd($insert_data);
             Customer::insert($insert_data);
             return response()->json([
                 'success' => 'Data has been inserted.'
