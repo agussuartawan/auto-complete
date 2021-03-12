@@ -36,13 +36,14 @@
 
         <div class="card-body">
 
-        <form action="{{ route('cari_customer') }}" method="POST" id="form_cari">
-            {{ csrf_field() }}
+        <form action="{{ url('/store') }}" method="POST" id="form_cari">
+            @csrf
             <div class="container">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div id="remote" class="form-group">
-                          <input class="typeahead form-control" name="name" type="text" placeholder="Ketik untuk mencari pelanggan">
+                        <div id="remote" class="form-group">                            
+                          <input id="customer_id" class="form-control" name="customers_id" type="">
+                          <input class="typeahead form-control" type="text" placeholder="Ketik untuk mencari pelanggan">
                         </div>                        
                       <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
                     </div>
@@ -64,6 +65,8 @@
 
     <script type="text/javascript">
     $(document).ready(function(){
+
+        var fix_name;
         var customers = new Bloodhound({
           datumTokenizer: Bloodhound.tokenizers.whitespace,
           queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -91,14 +94,34 @@
             templates: {
                 empty: [
                   '<div class="empty-message">',
-                    'unable to find any Best Picture winners that match the current query',
+                    '<a href="#">Ketuk untuk menambah customer(new)</a>',
                   '</div>'
                 ].join('\n'),
                 header: function(query){
                     return '<div class="form-control"><a href="#">Ketuk untuk menambahkan '+query.query+'(new)</a></div>'
+                },
+                suggestion: function(data){
+                    return '<div class="tt-suggestion tt-selectable"><p>'+data.customer_name+'<br>'+data.customer_addres+'</p></div>';
                 }
             }
-        });        
+        })
+        .on('typeahead:select', onSelect)  
+        .on('typeahead:autocompleted', onAutocomppleted)  
+        .on('typeahead:change', onChange);  
+
+        function onSelect(ev, suggestion) {
+            $("#customer_id").val(suggestion.customer_id);
+            fix_name = suggestion.name;
+        };
+
+        function onAutocomppleted(ev, suggestion) {
+            $("#customer_id").val(suggestion.customer_id);
+            fix_name = suggestion.name;
+        };
+
+        function onChange(event) {
+            $("#remote .typeahead").val(fix_name);
+        };
     });
 
     </script>

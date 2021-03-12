@@ -17,6 +17,7 @@ class AutocompleteController extends Controller
     public function store(Request $request)
     {
         Piutang::create($request->all());
+        // dd($request->all());
         return redirect('/index')->with('success', 'Data berhasil disimpan');
     }
 
