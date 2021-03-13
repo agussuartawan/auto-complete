@@ -14,7 +14,7 @@
   </head>
   <body>
 
-    <div class="container">
+    <div class="container max-width pt-2">
         
     <div class="card">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -70,7 +70,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 
-    <script>
+    <script type="text/JavaScript">
         $(document).ready(function(){
 
             var count = 1;

@@ -20,3 +20,4 @@ Route::post('/store', 'AutocompleteController@store');
 Route::get('/cari_customer', 'AutocompleteController@cari_customer')->name('cari_customer');
 Route::post('/customer/store', 'AutocompleteController@customer_store')->name('customer.store');
 Route::get('/customer/create', 'AutocompleteController@create');
+Route::post('customer/add', 'AutocompleteController@customerStore');

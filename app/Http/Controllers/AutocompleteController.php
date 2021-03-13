@@ -64,4 +64,10 @@ class AutocompleteController extends Controller
 
         }
     }
+
+    public function customerStore(Request $request)
+    {
+        Customer::create($request->all());
+        return redirect("/index");
+    }
 }
