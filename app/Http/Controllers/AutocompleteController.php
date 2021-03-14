@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\Piutang;
+use App\Produk;
 Use Validator;
 
 class AutocompleteController extends Controller
@@ -18,7 +19,7 @@ class AutocompleteController extends Controller
     {
         Piutang::create($request->all());
         // dd($request->all());
-        return redirect('/index')->with('success', 'Data berhasil disimpan');
+        return redirect('/home')->with('status', 'Data berhasil disimpan');
     }
 
     public function create()
@@ -28,7 +29,13 @@ class AutocompleteController extends Controller
 
     public function cari_customer(Request $request)
     {
-        $data = Customer::select("id", "name", "addres")->where("name", "LIKE", "%{$request->input('query')}%")->get();
+        $hasil = Customer::select("id", "name", "addres")->where("name", "LIKE", "%{$request->input('find')}%")->get();
+        return response()->json($hasil);
+    }
+
+    public function cari_produk(Request $request)
+    {
+        $data = Produk::select("id", "kode_produk", "nama_produk", "harga")->where("nama_produk", "LIKE", "%{$request->input('query')}%")->get();
         return response()->json($data);
     }
 

@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url('/typeahead/typeaheadjs.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 
     <title>Belajar PHP Ajax</title>
   </head>
@@ -37,20 +35,7 @@
 
         <div class="card-body">
 
-        <form action="{{ url('/store') }}" method="POST" id="form_cari">
-            @csrf
-            <div class="container">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div id="remote" class="form-group">                            
-                          <input id="customer_id" class="form-control" name="customers_id" type="hidden">
-                          <input class="typeahead form-control" type="text" placeholder="Ketik untuk mencari pelanggan">                       
-                    </div>
-                      <input type="text" name="piutang" class="form-control" placeholder="Masukan piutang">
-                </div>
-                <br><input type="submit" value="Save" class="btn">
-            </div>
-        </form>
+        
 
         </div>
     </div>
@@ -61,70 +46,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url('/typeahead/typeahead.bundle.js') }}"></script>
+    
 
-    <script type="text/JavaScript">
-        $(document).ready(function(){
-            var fix_name;
-            var newCustomer;
-            var customers = new Bloodhound({
-              datumTokenizer: Bloodhound.tokenizers.whitespace,
-              queryTokenizer: Bloodhound.tokenizers.whitespace,
-              remote: {
-                url: "{{ route('cari_customer') }}?query=%QUERY%",
-                wildcard: "%QUERY%",
-                filter: function(customers){
-                    return $.map(customers, function(customer){
-                        return {
-                            customer_id: customer.id,
-                            customer_name: customer.name,
-                            customer_addres: customer.addres
-                        }
-                    })
-                }
-              }
-            });        
-
-            $("#remote .typeahead").typeahead(null,{
-                name: "customers",
-                display: "customer_name",
-                source: customers,
-                limit: 10,
-                templates: {
-                    empty: [
-                      '<div class="empty-message form-control">',
-                        '<a href="#" data-toggle="modal" data-target="#addCustomer">Ketuk untuk menambah customer baru(new)</a>',
-                      '</div>'
-                    ].join('\n'),
-                    header: function(query){
-                        newCustomer = query.query;
-                        return '<div class="form-control"><a onclick="newCust()" href="#" data-toggle="modal" data-target="#addCustomer">Ketuk untuk menambahkan '+query.query+'(new)</a></div>'
-                    },
-                    suggestion: function(data){
-                        return '<div class="tt-suggestion tt-selectable"><p class="mb-0"><strong>'+data.customer_name+'</strong><br>Alamat : '+data.customer_addres+'</p></div>';
-                    }
-                }
-            })
-            .on('typeahead:select', onSelect)  
-            .on('typeahead:autocompleted', onAutocomppleted)
-            .on('typeahead:change', onChange);  
-
-            function onSelect(ev, suggestion) {
-                $("#customer_id").val(suggestion.customer_id);
-                fix_name = suggestion.customer_name;
-            };
-
-            function onAutocomppleted(ev, suggestion) {
-                $("#customer_id").val(suggestion.customer_id);
-                fix_name = suggestion.customer_name;
-            };
-
-            function onChange(event) {
-                $("#remote .typeahead").val(fix_name);
-            };
-        });
-    </script>
   </body>
 </html>
