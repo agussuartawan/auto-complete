@@ -14,9 +14,9 @@
                         </div>
                     @endif
 
-                    <form action="{{ url('/store') }}" method="POST" id="form_cari">
+                    <form action="{{ route('transaksi.store') }}" method="POST" id="form_cari">
                         @csrf
-                        <input id="customer_id" name="customers_id" type="hidden">
+                        <input id="customer_id" name="customer_id" type="hidden">
                         <div class="container">
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -32,7 +32,7 @@
                                         <div class="col-4">
                                             <label><strong>Tanggal</strong></label>
                                             <div class="input-group mb-3">
-                                                <input id="datePicker" type="text" name="tanggal" class="form-control" value="{{ date('d-m-Y') }}">
+                                                <input id="datePicker" type="text" name="tanggal" class="form-control" value="{{ date('Y-m-d') }}">
                                                 <div class="input-group-append">
                                                     <label class="input-group-text" id="basic-addon2" for="datePicker"><i class="fas fa-th"></i></label>
                                                 </div>
@@ -54,9 +54,9 @@
                                             <table class="table table-light table-responsive table-striped" id="tabel_input">
                                                 <thead>
                                                     <tr>
-                                                        <th width="40%">*Produk</th>
+                                                        <th width="60%">*Produk</th>
                                                         <th width="15%">Qty</th>
-                                                        <th width="30%">Harga</th>
+                                                        <th width="20%">Harga</th>
                                                         <th width="5%"></th>
                                                     </tr>
                                                 </thead>
@@ -74,8 +74,16 @@
                                             </table>
                                         </form>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input id="grand_total_input" type="hidden" value="0" name="grand_total">
+                                        </div>
+                                        <div class="col-md-6 float-right" id="grand_total">
+                                            
+                                        </div>
+                                    </div>
                                     <hr>
-                                    <input value="Simpan" class="btn float-right btn-success">
+                                    <button class="btn btn-success float-right">Simpan</button>
                                 </div>
                             </div>
                         </div>
@@ -88,6 +96,7 @@
 </div>
 
 <script type="text/JavaScript">
+
     // fungsi untuk melakukan pencarian data pelanggan
     $(document).ready(function(){
         //untuk customer
@@ -171,13 +180,18 @@
         //fungsi untuk menambah form barang
         var count = 1;
 
+        //inisialisasi fungsi
         dinamis_field(count);
+        show_grand_total(
+            hitung_grand_total(count)
+        );
 
         function dinamis_field(number){
             var html = '<tr id="baris'+number+'" class="td">';
             html += '<td><input type="hidden" id="produk_id'+number+'" name="produk_id[]"></input><input id="produkName'+number+'" type="text" class="form-control" placeholder="Ketuk untuk mencari" /></td>';
-            html += '<td><input type="number" name="qty[]" value="1" class="form-control" /></td>';
-            html += '<td><input id="harga'+number+'" type="text" name="harga[]" class="form-control" /></td>';
+            html += '<td><input type="number" name="qty[]" value="1" class="form-control" id="qty'+number+'" /></td>';
+            html += '<td><input id="harga'+number+'" type="text" name="harga[]" value="0" class="form-control" /></td>';
+            html += '<td><input id="sub'+number+'" type="hidden" value="0" class="form-control" /></td>';
 
             if (number > 1){
                 html += '<td class="hapus"><a href="#"><i class="fa fa-minus" aria-hidden="true"></a></td></tr>';
@@ -212,26 +226,53 @@
                 $("#produk_id"+number).val(suggestion.product_id);
                 $("#harga"+number).val(suggestion.product_harga);
                 fix_produk[number] = suggestion.product_name;
+
+                $('#sub'+number).val(sub_total(number));
+                show_grand_total(hitung_grand_total(count));
             };
 
             function onAutocomppletedProduct(ev, suggestion) {
                 $("#produk_id"+number).val(suggestion.product_id);
                 $("#harga"+number).val(suggestion.product_harga);
                 fix_produk[number] = suggestion.product_name;
+
+                $('#sub'+number).val(sub_total(number));
+                show_grand_total(hitung_grand_total(count));
             };
 
             function onChangeProduct(event) {
                 $("#produkName"+number).val(fix_produk[number]);
             };
+
+            //event untuk menampilkan grand total
+            $("#qty"+number).on("change", function(event){
+                $('#sub'+number).val(sub_total(number));
+                show_grand_total(hitung_grand_total(count));
+            });
+
+            $("#harga"+number).on("change", function(event){
+                $('#sub'+number).val(sub_total(number));
+                show_grand_total(hitung_grand_total(count));
+            });
         }
 
         $('#tambah').click(function(){
             count++;
+            last_count = count;
             dinamis_field(count);
         });
 
         $(document).on('click', '.hapus', function(){
             var button_id = $(this).parent().attr('id');
+
+            // var kode = button_id.substring(5); 
+            // var min = $('#sub'+kode).val();
+            // var now = $('#grand_total_input').val();
+            // var total_now = now - min;
+            show_grand_total(
+                hitung_grand_total(count)
+            ); 
+
             $('#'+button_id).remove();
         });
 
@@ -264,10 +305,42 @@
 
         //fungsi untuk mengatur tanggal hari ini
         $("#datePicker").datepicker({
-              format: 'dd-mm-yyyy',
+              format: 'yyyy-mm-dd',
               autoclose: true,
               todayHighlight: true,
         });
+
+        //fungsi untuk menghitung sub total
+        function sub_total(baris){
+            var qty = [];
+            var harga = [];
+            var sub_total = [];
+
+            qty[baris] = $('#qty'+baris).val();
+            harga[baris] = $('#harga'+baris).val();
+            sub_total[baris] = parseInt(qty[baris]) * parseInt(harga[baris]);
+            return sub_total[baris];
+        }
+
+        function hitung_grand_total(row) {
+            var total = 0;
+            var subtotal = [];
+            for (var i = 1; i <= row; i++) {
+                subtotal[i] = parseInt($("#sub"+i).val());
+                if (subtotal[i] > 0) {
+                    total = total + subtotal[i];
+                }
+            }
+            return total;
+        }
+
+        //fungsi untuk grand total
+        function show_grand_total(value) {
+            $('#grand_total_value').remove();
+            $('#grand_total').html('<h3 id="grand_total_value"> Total Rp. '+value+'</h3>');
+            $('#grand_total_input').val(value);
+        }
+
     });
     </script>
 @endsection

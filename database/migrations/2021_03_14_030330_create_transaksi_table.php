@@ -17,7 +17,7 @@ class CreateTransaksiTable extends Migration
             $table->increments('id');
             $table->integer('customer_id');
             $table->date('tanggal');
-            $table->float('grand_total')->default(0);
+            $table->bigInteger('grand_total')->default(0);
             $table->timestamps();
         });
     }

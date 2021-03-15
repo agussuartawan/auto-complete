@@ -6,13 +6,45 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Piutang;
 use App\Produk;
+use App\Transaksi;
+use App\DetailTransaksi;
 Use Validator;
 
 class AutocompleteController extends Controller
 {
-    public function index()
+
+    public function transaksi_store(Request $request)
     {
-        return view('autocomplete.index');
+        $transaksi_no = 0;
+        $data_no = Transaksi::select("id")->orderBy("id", "desc")->take(1)->get();
+        foreach ($data_no as $no) {
+            $transaksi_no = $no->id;
+        }
+
+        //data untuk table transaksi
+        $data_customer = [
+            'customer_id' => $request->customer_id,
+            'tanggal' => $request->tanggal,
+            'grand_total' => $request->grand_total
+        ];        
+
+        //data untuk table detail_transaksi
+        $transaksi_id = $transaksi_no + 1;
+        $produk_id = $request->produk_id;
+        $qty = $request->qty;
+        $harga = $request->harga;
+        for ($i=0; $i < count($produk_id); $i++) { 
+            $data = [
+                'transaksi_id' => $transaksi_id,
+                'produk_id' => $produk_id[$i],
+                'qty' => $qty[$i],
+                'harga' => $harga[$i]
+            ];
+            $data_produk[] = $data;
+        }
+        Transaksi::insert($data_customer);
+        DetailTransaksi::insert($data_produk);
+        echo "Sukses";
     }
 
     public function store(Request $request)

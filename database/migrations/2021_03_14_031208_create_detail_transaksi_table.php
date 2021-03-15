@@ -17,7 +17,7 @@ class CreateDetailTransaksiTable extends Migration
             $table->integer('transaksi_id');
             $table->integer('produk_id');
             $table->integer('qty');
-            $table->float('harga');
+            $table->bigInteger('harga');
         });
     }
 

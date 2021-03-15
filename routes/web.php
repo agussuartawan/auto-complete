@@ -15,13 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/index', 'AutocompleteController@index');
 Route::post('/store', 'AutocompleteController@store');
 Route::get('/cari_customer', 'AutocompleteController@cari_customer')->name('cari_customer');
 Route::post('/customer/store', 'AutocompleteController@customer_store')->name('customer.store');
 Route::get('/customer/create', 'AutocompleteController@create');
 Route::post('customer/add', 'AutocompleteController@customerStore');
 Route::get('/cari_produk', 'AutocompleteController@cari_produk')->name('cari_produk');
+Route::post('transaksi/store', 'AutocompleteController@transaksi_store')->name('transaksi.store');
 
 Auth::routes();
 
