@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header"><strong>Transaksi Penjualan</strong></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -42,7 +42,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="input-group mb-3">
-                                                <textarea readonly="readonly" class="form-control" id="alamat"></textarea>
+                                                <textarea class="form-control" id="alamat" readonly></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +83,17 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <button class="btn btn-success float-right">Simpan</button>
+                                    <!-- Example split danger button -->
+                                    <div class="btn-group dropup float-right">
+                                    <input id="redirect_to" type="hidden" value="/" name="redirect_to" readonly>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a href="#" id="simpan_baru" class="dropdown-item">Simpan dan Baru</a>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -97,8 +107,14 @@
 
 <script type="text/JavaScript">
 
-    // fungsi untuk melakukan pencarian data pelanggan
     $(document).ready(function(){
+        //fungsi untuk menentukan redirect kemana
+        $("#simpan_baru").click(function(){
+            $("#redirect_to").val("/home");
+            $("#form_cari").submit();
+        });
+
+        // fungsi untuk melakukan pencarian data pelanggan
         //untuk customer
         var fix_name;
         var customers = new Bloodhound({

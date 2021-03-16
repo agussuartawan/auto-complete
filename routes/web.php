@@ -23,7 +23,7 @@ Route::post('transaksi/store', 'AutocompleteController@transaksi_store')->name('
 Route::get('/transaksi/show/{id}', 'AutocompleteComtroller@show')->name('transaksi.show');
 Route::get('/transaksi/edit/{id}', 'AutocompleteComtroller@show')->name('transaksi.edit');
 Route::put('/transaksi/delete/{id}', 'AutocompleteComtroller@show')->name('transaksi.delete');
-Route::get('/transaksi/table', 'AutocompleteController@dataTable');
+Route::get('/transaksi/table', 'AutocompleteController@dataTable')->name('transaksi.table');
 
 Auth::routes();
 

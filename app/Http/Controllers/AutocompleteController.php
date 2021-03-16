@@ -21,6 +21,8 @@ class AutocompleteController extends Controller
 
     public function transaksi_store(Request $request)
     {
+        $redirect_to = $request->redirect_to;
+        // dd($redirect_to);
         $transaksi_no = 0;
         $data_no = Transaksi::select("id")->orderBy("id", "desc")->take(1)->get();
         foreach ($data_no as $no) {
@@ -50,7 +52,8 @@ class AutocompleteController extends Controller
         }
         Transaksi::insert($data_customer);
         DetailTransaksi::insert($data_produk);
-        return redirect('/home')->with('status', 'Transaksi tersimpan.');
+
+        return redirect($redirect_to)->with('status', 'Transaksi tersimpan.');
     }
 
     public function store(Request $request)
@@ -118,8 +121,11 @@ class AutocompleteController extends Controller
 
     public function dataTable()
     {
-        $model = Transaksi::query();
-        return DataTables::of($model)
+        $model = Transaksi::with('Customer');
+        return DataTables::eloquent($model)
+            ->addColumn('customers', function (Transaksi $transaksi) {
+                return $transaksi->customer->name;
+            })
             ->addColumn('action', function($model){
                 return view('autocomplete.layout._action', [
                     'model' => $model,
@@ -129,6 +135,6 @@ class AutocompleteController extends Controller
                 ]);
             })
             ->rawColumns(['action'])
-            ->make(true);
+            ->toJson();
     }
 }
