@@ -9,9 +9,15 @@ use App\Produk;
 use App\Transaksi;
 use App\DetailTransaksi;
 Use Validator;
+Use DataTables;
 
 class AutocompleteController extends Controller
 {
+
+    public function index()
+    {
+        return view('autocomplete.index');
+    }
 
     public function transaksi_store(Request $request)
     {
@@ -44,7 +50,7 @@ class AutocompleteController extends Controller
         }
         Transaksi::insert($data_customer);
         DetailTransaksi::insert($data_produk);
-        echo "Sukses";
+        return redirect('/home')->with('status', 'Transaksi tersimpan.');
     }
 
     public function store(Request $request)
@@ -108,5 +114,21 @@ class AutocompleteController extends Controller
     {
         Customer::create($request->all());
         return redirect("/index");
+    }
+
+    public function dataTable()
+    {
+        $model = Transaksi::query();
+        return DataTables::of($model)
+            ->addColumn('action', function($model){
+                return view('autocomplete.layout._action', [
+                    'model' => $model,
+                    'url_show' => route('transaksi.show', $model->id),
+                    'url_edit' => route('transaksi.edit', $model->id),
+                    'url_delete' => route('transaksi.delete', $model->id)
+                ]);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }

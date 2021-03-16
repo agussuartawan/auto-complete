@@ -15,6 +15,7 @@
     <script src="{{ url('/typeahead/typeahead.bundle.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://kit.fontawesome.com/0158c268ff.js" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
     @stack('js')
 
     <!-- Fonts -->
@@ -26,6 +27,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('/typeahead/typeaheadjs.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
     @stack('css')
 
 </head>

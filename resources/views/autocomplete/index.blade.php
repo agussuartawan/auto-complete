@@ -1,52 +1,61 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@extends('layouts.app')
 
-    <!-- Bootstrap CSS -->
-    
+@section('content')
 
-    <title>Belajar PHP Ajax</title>
-  </head>
-  <body>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-10">
+                            Data Transaksi
+                        </div>
+                        <div class="col-2">
+                            <a href="{{ route('home') }}" class="btn btn-primary"><i class="fas fa-plus"></i>Tambah</a>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="container max-width pt-2">
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button> 
-        <strong>{{ $message }}</strong>
-        </div>
-    @endif
-    <div class="card">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/customer/create') }}">Add Customers</a>
-                    </li>
-                </ul>
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    <table class="table table-hover" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>No Transaksi</th>
+                                <th>Customer</th>
+                                <th>Total</th>
+                                <th>Tanggal</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>No Transaksi</th>
+                                <th>Customer</th>
+                                <th>Total</th>
+                                <th>Tanggal</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    
+                </div>
             </div>
-        </nav>
-
-        <div class="card-body">
-
-        
-
         </div>
     </div>
-    
-    </div>
+</div>
 
-    @include('autocomplete.layout._modal')
+@endsection
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
+@push('js')
 
-  </body>
-</html>
+@endpush

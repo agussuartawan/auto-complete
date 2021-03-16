@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -54,8 +54,8 @@
                                             <table class="table table-light table-responsive table-striped" id="tabel_input">
                                                 <thead>
                                                     <tr>
-                                                        <th width="60%">*Produk</th>
-                                                        <th width="15%">Qty</th>
+                                                        <th width="55%">*Produk</th>
+                                                        <th width="20%">Qty</th>
                                                         <th width="20%">Harga</th>
                                                         <th width="5%"></th>
                                                     </tr>
