@@ -121,11 +121,9 @@ class AutocompleteController extends Controller
 
     public function dataTable()
     {
-        $model = Transaksi::with('Customer');
-        return DataTables::eloquent($model)
-            ->addColumn('customers', function (Transaksi $transaksi) {
-                return $transaksi->customer->name;
-            })
+        $model = Transaksi::join('customers', 'transaksi.customer_id', '=', 'customers.id')
+                            ->select(['transaksi.*','customers.*']);
+        return DataTables::of($model)
             ->addColumn('action', function($model){
                 return view('autocomplete.layout._action', [
                     'model' => $model,
@@ -135,6 +133,6 @@ class AutocompleteController extends Controller
                 ]);
             })
             ->rawColumns(['action'])
-            ->toJson();
+            ->make(true);
     }
 }

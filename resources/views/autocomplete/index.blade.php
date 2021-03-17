@@ -30,15 +30,14 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                <table class="table table-hover table-bordered" id="dataTable">
+                    <table class="table table-hover table-bordered" id="dataTable">
                         <thead class="thead-light">
                             <tr>
-                                <th widht="10%">No Transaksi</th>
-                                <th widht="30%">Customer</th>
-                                <th widht="25%">Total</th>
-                                <th widht="25%">Tanggal</th>
-                                <th width="10%"></th>
+                                <th>No Transaksi</th>
+                                <th>Customer</th>
+                                <th>Total</th>
+                                <th>Tanggal</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,7 +53,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                    
                 </div>
             </div>
         </div>
@@ -76,10 +74,10 @@ $(document).ready(function(){
         serverSide: true,
         ajax: "{{ route('transaksi.table') }}",
         columns: [
-            {data: 'id', name:'id'},
-            {data: 'customers', name:'name'},
-            {data: 'grand_total', name:'grand_total'},
-            {data: 'tanggal', name:'tanggal'},
+            {data: 'id', name:'transaksi.id'},
+            {data: 'name', name:'customers.name'},
+            {data: 'grand_total', name:'transaksi.grand_total'},
+            {data: 'tanggal', name:'transaksi.tanggal'},
             {data: 'action', name:'action'}
         ],
         "order": [[0,'desc']]
