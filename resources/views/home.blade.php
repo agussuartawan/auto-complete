@@ -353,9 +353,11 @@
         //fungsi untuk grand total
         function show_grand_total(value) {
             $('#grand_total_value').remove();
-            $('#grand_total').html('<h3 id="grand_total_value"> Total Rp. '+value+'</h3>');
+            $('#grand_total').html('<h3 id="grand_total_value"> Total '+value+'</h3>');
             $('#grand_total_input').val(value);
         }
+
+        $('#grand_total_value').autoNumeric('init');
 
     });
     </script>

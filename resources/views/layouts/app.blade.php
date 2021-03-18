@@ -29,6 +29,7 @@
     <script src="https://kit.fontawesome.com/0158c268ff.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ asset('js/AutoNumeric.js') }}"></script>
     @stack('js')
 
 </head>

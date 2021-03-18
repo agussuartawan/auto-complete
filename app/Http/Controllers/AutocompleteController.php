@@ -132,6 +132,7 @@ class AutocompleteController extends Controller
                     'url_delete' => route('transaksi.delete', $model->id)
                 ]);
             })
+            ->addColumn('grand_total', '@currency($model->grand_total)')
             ->rawColumns(['action'])
             ->make(true);
     }
