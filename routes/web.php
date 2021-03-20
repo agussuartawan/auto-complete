@@ -20,11 +20,13 @@ Route::get('/customer/create', 'AutocompleteController@create');
 Route::post('customer/add', 'AutocompleteController@customerStore');
 Route::get('/cari_produk', 'AutocompleteController@cari_produk')->name('cari_produk');
 Route::post('transaksi/store', 'AutocompleteController@transaksi_store')->name('transaksi.store');
-Route::get('/transaksi/show/{id}', 'AutocompleteComtroller@show')->name('transaksi.show');
-Route::get('/transaksi/edit/{id}', 'AutocompleteComtroller@show')->name('transaksi.edit');
-Route::put('/transaksi/delete/{id}', 'AutocompleteComtroller@show')->name('transaksi.delete');
+Route::get('/transaksi/show/{id}', 'AutocompleteController@show')->name('transaksi.show');
+Route::get('/transaksi/edit/{id}', 'AutocompleteController@show')->name('transaksi.edit');
+Route::put('/transaksi/delete/{id}', 'AutocompleteController@show')->name('transaksi.delete');
 Route::get('/transaksi/table', 'AutocompleteController@dataTable')->name('transaksi.table');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('products', 'ProductController');
+Route::get('/product/table', 'ProductController@dataTable')->name('product.table');
