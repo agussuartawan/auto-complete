@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     $('#refresh').click(function(){
         $('#dataTable').DataTable().ajax.reload();
     });
@@ -27,5 +28,16 @@ $(document).ready(function(){
 
         $('.modal-title').text(title);
         $('.modal-save').text('Tambah');
+
+        $.ajax({
+            url: url,
+            dataType: 'html',
+            success: function(response) {
+                $('.modal-body').html(response);
+            }
+        });
+        
+        $('#modal').modal('show');
     });
+
 });

@@ -50,19 +50,19 @@ $(document).ready(function(){
     });        
 
     //untuk customer
-    $("#typeahead").typeahead(null,{
+    $(".tt-input-group .typeahead-customer").typeahead(null,{
         name: "customers",
         display: "customer_name",
         source: customers,
         limit: 10,
         templates: {
             empty: [
-              '<div class="empty-message form-control">',
-                '<a href="#" data-toggle="modal" data-target="#addCustomer">Ketuk untuk menambah customer baru(new)</a>',
+              '<div style="width:440px" class="empty-message padding">',
+                '<a class="ml-1" href="#" data-toggle="modal" data-target="#addCustomer">Ketuk untuk menambah customer baru(new)</a>',
               '</div>'
             ].join('\n'),
             suggestion: function(data){
-                return '<div class="tt-suggestion tt-selectable"><p class="mb-0"><strong>'+data.customer_name+'</strong><br>Alamat : '+data.customer_addres+'</p></div>';
+                return '<div style="width:440px" class="tt-suggestion tt-selectable"><p class="mb-0"><strong>'+data.customer_name+'</strong><br>Alamat : '+data.customer_addres+'</p></div>';
             }
         }
     })
@@ -118,8 +118,8 @@ $(document).ready(function(){
             limit: 10,
             templates: {
                 empty: [
-                  '<div class="empty-message form-control">',
-                    '<a href="#" data-toggle="modal" data-target="#addCustomer">Ketuk untuk menambah produk baru(new)</a>',
+                  '<div class="empty-message padding">',
+                    '<a href="#" title="Tambah Produk" class="modal-show">Ketuk untuk menambah produk baru(new)</a>',
                   '</div>'
                 ].join('\n'),
                 suggestion: function(hasil){
@@ -249,5 +249,23 @@ $(document).ready(function(){
         $('#grand_total').html('<h3 id="grand_total_value"> Total '+value+'</h3>');
         $('#grand_total_input').val(value);
     }
+
+    $('body').on('click', '.modal-show', function(event){
+        var me = $(this),
+            title = me.attr('title');
+
+        $('.modal-title').text(title);
+        $('.modal-save').text('Tambah');
+
+        $.ajax({
+            url: url,
+            dataType: 'html',
+            success: function(response) {
+                $('.modal-body').html(response);
+            }
+        });
+        
+        $('#modal').modal('show');
+    });
 
 });

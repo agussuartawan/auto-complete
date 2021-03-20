@@ -24,8 +24,8 @@
                                     <div class="row">
                                         <div class="col-6">                                                      
                                             <label><strong>*Pelanggan</strong></label>
-                                            <div class="input-group mb-3">
-                                                <input type="text" id="typeahead" class="form-control" placeholder="Ketuk untuk mencari">
+                                            <div class="tt-input-group input-group mb-3">
+                                                <input type="text" class="form-control typeahead-customer" placeholder="Ketuk untuk mencari">
                                                 <input type="hidden" value="{{ route('cari_customer') }}" id="url_customer" />
                                             </div>
                                         </div>
@@ -49,10 +49,9 @@
                                     </div>
 
                                     <!-- form untuk input data barang -->
-                                    <div class="table-responsive">
                                         <form action="{{ url('/store') }}" method="POST" class="form" id="form_input">
                                             <span id="hasil"></span>
-                                            <table class="table table-light table-responsive table-striped" id="tabel_input">
+                                            <table class="table table-light table-striped" id="tabel_input">
                                                 <thead>
                                                     <tr>
                                                         <th width="55%">*Produk</th>
@@ -62,8 +61,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <input type="hidden" value="{{ route('cari_produk') }}" id="url_product" >
                                                 </tbody>
+                                                    <input type="hidden" value="{{ route('cari_produk') }}" id="url_product" >
                                                 <tfoot>
                                                     <tr>
                                                         <th><a href="#" id="tambah" name="tambah">(+)Tambah form</a></th>
@@ -74,7 +73,6 @@
                                                 </tfoot>
                                             </table>
                                         </form>
-                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <input id="grand_total_input" type="hidden" value="0" name="grand_total">
@@ -108,5 +106,8 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('js/home.js') }}"></script>
+    <script>
+        var url = "{{ route('products.create') }}";
+    </script>
+    <script src="{{ asset('js/home.js') }}"></script>
 @endpush
